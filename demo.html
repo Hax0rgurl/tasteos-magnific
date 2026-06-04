@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TasteOS for Magnific Demo</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #050505;
+        --panel: #111116;
+        --panel-2: #18121b;
+        --line: #3a203d;
+        --text: #fff;
+        --muted: #aaa0ad;
+        --magenta: #ff22d2;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 78% 4%, rgba(255, 34, 210, .18), transparent 30%),
+          linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(255,255,255,.035) 1px, transparent 1px),
+          var(--bg);
+        background-size: 100% 100%, 48px 48px, 48px 48px;
+      }
+
+      button, input { font: inherit; }
+      .shell { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+      .side { padding: 22px; background: #000; border-right: 1px solid var(--line); }
+      .brand { display: flex; gap: 12px; align-items: center; margin-bottom: 26px; }
+      .mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 8px; background: var(--magenta); box-shadow: 0 0 28px rgba(255,34,210,.35); font-weight: 900; }
+      .brand strong { display: block; font-size: 21px; }
+      .brand span:last-child { display: block; color: var(--muted); font-size: 12px; }
+      .nav { display: grid; gap: 8px; }
+      .nav button {
+        height: 42px; padding: 0 12px; text-align: left; color: var(--muted);
+        background: transparent; border: 1px solid transparent; border-radius: 8px; cursor: pointer;
+      }
+      .nav button.active, .nav button:hover { color: #fff; background: rgba(255,34,210,.15); border-color: rgba(255,34,210,.45); }
+      .side-card { margin-top: 22px; padding: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+      .side-card h3 { margin: 0 0 8px; font-size: 14px; }
+      .side-card p, .kv { color: var(--muted); font-size: 13px; line-height: 1.45; }
+      .kv { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+      .kv b { color: #fff; }
+
+      main { padding: 22px; min-width: 0; }
+      .hero, .band, .panel { background: rgba(17,17,22,.94); border: 1px solid var(--line); border-radius: 8px; }
+      .hero { display: flex; justify-content: space-between; gap: 18px; align-items: start; padding: 20px; box-shadow: 0 24px 80px rgba(255,34,210,.1); }
+      h1, h2, h3, p { margin: 0; }
+      h1 { font-size: clamp(34px, 5vw, 54px); line-height: 1; }
+      .hero p, .sub { color: var(--muted); margin-top: 8px; line-height: 1.45; }
+      .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+      .btn {
+        min-height: 38px; padding: 0 14px; border-radius: 7px; border: 1px solid var(--line);
+        color: #fff; background: #000; cursor: pointer; font-weight: 800;
+      }
+      .btn.primary { background: var(--magenta); border-color: var(--magenta); box-shadow: 0 0 24px rgba(255,34,210,.2); }
+      .band { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 14px; overflow: hidden; }
+      .band div { padding: 14px; border-right: 1px solid var(--line); }
+      .band div:last-child { border-right: 0; }
+      .label { color: var(--magenta); font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; }
+      .band strong { display: block; margin-top: 7px; font-size: 13px; line-height: 1.35; }
+
+      .grid { display: grid; grid-template-columns: minmax(0, 1fr) 430px; gap: 16px; margin-top: 16px; }
+      .panel { padding: 16px; }
+      .head { display: flex; justify-content: space-between; gap: 14px; align-items: center; margin-bottom: 14px; }
+      .tabs { display: flex; gap: 6px; padding: 3px; background: #000; border: 1px solid var(--line); border-radius: 8px; }
+      .tabs button { border: 0; border-radius: 6px; padding: 7px 10px; color: var(--muted); background: transparent; cursor: pointer; font-weight: 800; }
+      .tabs button.active { color: #fff; background: var(--magenta); }
+      .card {
+        display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; width: 100%;
+        padding: 14px; margin-top: 12px; color: #fff; text-align: left; background: #09090c;
+        border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+      }
+      .card.active { border-color: var(--magenta); box-shadow: 0 16px 44px rgba(255,34,210,.16); }
+      .rank { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 7px; background: var(--magenta); font-weight: 950; }
+      .score { color: #ff69e5; font-size: 22px; font-weight: 950; }
+      .thumbs { display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+      .thumbs img { width: 58px; height: 42px; object-fit: cover; border: 1px solid var(--line); border-radius: 6px; }
+      .pill { display: inline-flex; align-items: center; min-height: 30px; padding: 0 9px; border-radius: 6px; background: rgba(255,34,210,.14); border: 1px solid rgba(255,34,210,.45); color: #fff; font-size: 12px; font-weight: 850; }
+      .asset { display: grid; grid-template-columns: 72px 1fr; gap: 10px; align-items: center; padding: 8px; margin-top: 8px; background: #09090c; border: 1px solid var(--line); border-radius: 8px; }
+      .asset img { width: 72px; height: 56px; object-fit: cover; border-radius: 6px; }
+      .asset span, .check p, .status { color: var(--muted); font-size: 12px; }
+      .asset span { display: block; margin-top: 3px; }
+      .ring { display: grid; place-items: center; width: 66px; height: 66px; border-radius: 50%; background: conic-gradient(var(--magenta) 0 86%, #fff 86% 92%, #222 92%); border: 5px solid #000; font-size: 20px; font-weight: 950; }
+      .inspect-top { display: grid; grid-template-columns: 72px 1fr; gap: 12px; align-items: center; }
+      .check { padding: 11px; margin-top: 8px; background: #09090c; border: 1px solid var(--line); border-radius: 8px; }
+      .workflow { margin-top: 12px; padding: 12px; background: #000; border: 1px solid var(--line); border-radius: 8px; }
+      .chain { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 10px; }
+      .chain span { min-height: 28px; padding: 7px 9px; border-radius: 6px; background: var(--magenta); font-size: 12px; font-weight: 900; }
+      .notice { margin-top: 10px; color: #ff8bea; font-size: 13px; min-height: 18px; }
+
+      .library-grid, .workflow-list, .taste-list { display: grid; gap: 12px; }
+      .library-item, .workflow-item, .taste-item { padding: 14px; background: #09090c; border: 1px solid var(--line); border-radius: 8px; }
+      .library-item { display: grid; grid-template-columns: 132px 1fr; gap: 12px; }
+      .library-item img { width: 132px; height: 96px; object-fit: cover; border-radius: 7px; }
+      .taste-meter { height: 9px; margin-top: 10px; overflow: hidden; background: #000; border: 1px solid var(--line); border-radius: 99px; }
+      .taste-meter i { display: block; height: 100%; background: var(--magenta); }
+      .hidden { display: none; }
+
+      @media (max-width: 980px) {
+        .shell { grid-template-columns: 1fr; }
+        .side { min-height: auto; }
+        .grid, .band { grid-template-columns: 1fr; }
+        .hero { display: block; }
+        .actions { margin-top: 14px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand"><span class="mark">✦</span><div><strong>TasteOS</strong><span>Agency OS for Magnific</span></div></div>
+        <nav class="nav">
+          <button class="active" data-view="desk">Agent Desk</button>
+          <button data-view="library">Magnific Library</button>
+          <button data-view="workflows">Workflows</button>
+          <button data-view="taste">TasteOS</button>
+        </nav>
+        <div class="side-card"><h3>Magnific backbone</h3><p>Agency archive, stock, AI generation, upscale, audio, video, and campaign folders run through Magnific first.</p></div>
+        <div class="side-card"><h3>Edit fallback</h3><div class="kv"><span>ffmpeg</span><b>Ready</b><span>OpenCut</span><b>Manual</b><span>Reclip</span><b>Manual</b></div></div>
+      </aside>
+
+      <main>
+        <section class="hero">
+          <div><h1 id="title">Agency Command Desk</h1><p id="subtitle">Agent reviews clients, archive assets, available Magnific workflows, and edit fallbacks to propose what the agency should make next.</p></div>
+          <div class="actions"><button class="btn" onclick="show('library')">Library</button><button class="btn primary" onclick="setNotice('Archive re-scored against agency taste model.')">Re-score</button></div>
+        </section>
+        <section class="band">
+          <div><span class="label">Agency makes</span><strong>paid social ads · creator launch kits · short-form video · brand campaign systems</strong></div>
+          <div><span class="label">Taste rules</span><strong>premium surreal realism · fast editorial pacing · black / white / magenta energy · no generic ad copy</strong></div>
+          <div><span class="label">Blocked before draft</span><strong>client NDA folders · unapproved faces · private talent usage</strong></div>
+        </section>
+
+        <section id="desk" class="view">
+          <div class="grid">
+            <div class="panel">
+              <div class="head"><div><h2>Agency opportunity queue</h2><p class="sub">What the agency should pitch, generate, cut, or test next.</p></div><div class="tabs"><button class="active">Suggestions</button><button onclick="show('taste')">Training</button></div></div>
+              <button class="card active" onclick="selectOpp(0)"><span class="rank">#1</span><span><h3>Turn the neon fashion archive into a 12-second launch reel</h3><p class="sub">Magnific video models can extend existing campaign frames into a coherent micro-story.</p><span class="thumbs"><img src="public/thumbs/fashion.jpg" alt=""><img src="public/thumbs/product.jpg" alt=""><span class="pill">Video workflow</span></span></span><b class="score">94%</b></button>
+              <button class="card" onclick="selectOpp(1)"><span class="rank">#2</span><span><h3>Refresh the product shot into a three-image paid campaign set</h3><p class="sub">High-performing old asset plus new Magnific stock references.</p><span class="thumbs"><img src="public/thumbs/product.jpg" alt=""><span class="pill">Image + upscale</span></span></span><b class="score">88%</b></button>
+              <button class="card" onclick="selectOpp(2)"><span class="rank">#3</span><span><h3>Recover voiceover takes as a creator-process post</h3><p class="sub">Turn unused narration into behind-the-scenes social content.</p><span class="thumbs"><img src="public/thumbs/audio.jpg" alt=""><img src="public/thumbs/coffee.jpg" alt=""><span class="pill">Audio + editorial</span></span></span><b class="score">87%</b></button>
+            </div>
+            <aside class="panel">
+              <div class="inspect-top"><span class="ring" id="score">94</span><div><h2 id="oppTitle">Turn the neon fashion archive into a 12-second launch reel</h2><p class="sub" id="oppOutput">3-shot vertical reel, campaign caption, thumbnail still</p></div></div>
+              <div class="asset"><img id="assetA" src="public/thumbs/fashion.jpg" alt=""><div><strong id="assetTitle">Neon warehouse fashion reel frames</strong><span>Magnific video · agency archive</span></div></div>
+              <div class="check"><strong>Privacy</strong><p>Pass: no private talent or NDA folders included.</p></div>
+              <div class="check"><strong>Taste</strong><p>Pass: matches premium surreal realism and fast editorial pacing.</p></div>
+              <div class="workflow"><strong>Magnific execution path</strong><div class="chain"><span>Search archive</span><span>Generate video</span><span>Upscale</span><span>Campaign folder</span></div></div>
+              <div class="workflow"><strong>Editing fallback</strong><p class="sub">If Magnific cannot clip/trim, export to ffmpeg for crop, trim, subtitles, speed ramp, and platform formats.</p></div>
+              <div class="actions" style="margin-top:12px"><button class="btn" onclick="setNotice('Rejected. TasteOS lowers similar concepts.')">Disapprove</button><button class="btn" onclick="setNotice('Revision requested: sharper hook and client-specific copy.')">Revise</button><button class="btn primary" onclick="setNotice('Magnific workflow handoff staged.')">Run in Magnific</button></div>
+              <div id="notice" class="notice">ready</div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="library" class="view hidden">
+          <div class="grid">
+            <div class="panel"><div class="head"><div><h2>Magnific agency library</h2><p class="sub">Client assets, Magnific stock, AI generations, and source material.</p></div></div>
+              <div class="library-grid">
+                <div class="library-item"><img src="public/thumbs/product.jpg" alt=""><div><span class="label">image · ready for paid social</span><h3>Chrome product render with wet pavement reflection</h3><p class="sub">Best use: hero visual, ad thumbnail, campaign mood.</p><button class="btn primary" onclick="setNotice('Product asset routed to Paid Ad Variant Factory.')">Send to workflow</button></div></div>
+                <div class="library-item"><img src="public/thumbs/fashion.jpg" alt=""><div><span class="label">video · needs edit pass</span><h3>Neon warehouse fashion reel frames</h3><p class="sub">Best use: short-form fashion reel source.</p><button class="btn primary" onclick="setNotice('Fashion frames routed to Social Launch Sprint.')">Send to workflow</button></div></div>
+                <div class="library-item"><img src="public/thumbs/audio.jpg" alt=""><div><span class="label">audio · raw narration</span><h3>Unused voiceover takes</h3><p class="sub">Best use: founder story, mini-doc, LinkedIn post.</p><button class="btn" onclick="setNotice('Audio asset queued for ffmpeg/Reclip edit fallback.')">Clip / edit fallback</button></div></div>
+              </div>
+            </div>
+            <aside class="panel"><h2>Library routing</h2><p class="sub">Magnific is the backbone. Anything that needs trimming, subtitles, or platform export can move through ffmpeg, OpenCut, or Reclip.</p><div class="workflow"><div class="chain"><span>Magnific stock</span><span>AI generation</span><span>Upscale</span><span>ffmpeg edit</span><span>Client review</span></div></div></aside>
+          </div>
+        </section>
+
+        <section id="workflows" class="view hidden">
+          <div class="grid">
+            <div class="panel"><h2>Workflow factory</h2><p class="sub">Campaign pipelines for a creative social media, ad, and marketing agency.</p>
+              <div class="workflow-list">
+                <div class="workflow-item"><span class="label">Fashion / product client</span><h3>Social Launch Sprint</h3><p class="sub">Generate a 9:16 Reel, 1:1 ad cutdown, story frames, and caption variants from Magnific assets.</p></div>
+                <div class="workflow-item"><span class="label">DTC product launch</span><h3>Paid Ad Variant Factory</h3><p class="sub">Turn one winning concept into hooks, product stills, UGC-style cuts, and platform-safe variants.</p></div>
+                <div class="workflow-item"><span class="label">Retainer account</span><h3>Brand World Expansion</h3><p class="sub">Expand campaign aesthetics into backgrounds, product scenes, motion boards, and prompts.</p></div>
+              </div>
+            </div>
+            <aside class="panel"><h2>Execution route</h2><div class="workflow"><div class="chain"><span>Magnific archive</span><span>Magnific generation</span><span>TasteOS critic</span><span>ffmpeg fallback</span><span>Approval</span></div></div><button class="btn primary" style="margin-top:12px" onclick="setNotice('Workflow queued against Magnific assets.')">Queue workflow</button></aside>
+          </div>
+        </section>
+
+        <section id="taste" class="view hidden">
+          <div class="grid">
+            <div class="panel"><h2>TasteOS agency model</h2><p class="sub">The judgment layer that blocks weak or off-brand work before clients see it.</p>
+              <div class="taste-list">
+                <div class="taste-item"><span class="label">92% learned</span><h3>Premium surreal realism</h3><p class="sub">Approved product renders, rejected flat catalog shots.</p><div class="taste-meter"><i style="width:92%"></i></div></div>
+                <div class="taste-item"><span class="label">88% learned</span><h3>Fast editorial pacing</h3><p class="sub">Approves 8-15 second cuts with punchy transitions.</p><div class="taste-meter"><i style="width:88%"></i></div></div>
+                <div class="taste-item"><span class="label">91% learned</span><h3>No generic marketing copy</h3><p class="sub">Critic blocks vague “futuristic” and “inspiring” language.</p><div class="taste-meter"><i style="width:91%"></i></div></div>
+              </div>
+            </div>
+            <aside class="panel"><h2>Trust is earned</h2><p class="sub">Every approval, rejection, and revision trains the agency model. Auto-publish stays off.</p><div class="workflow"><strong>Training sandbox</strong><p class="sub">Low-confidence drafts stay here until TasteOS proves it understands the client and brand.</p></div></aside>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script>
+      const headers = {
+        desk: ['Agency Command Desk', 'Agent reviews clients, archive assets, available Magnific workflows, and edit fallbacks to propose what the agency should make next.'],
+        library: ['Magnific Library', 'A working agency archive: client assets, Magnific stock, AI generations, campaign source material, and route-to-edit actions.'],
+        workflows: ['Workflow Factory', 'Campaign pipelines for a creative social media, ad, and marketing agency with Magnific as the AI content backbone.'],
+        taste: ['TasteOS', 'The agency judgment layer: learned creative taste, client rules, privacy gates, critic checks, and human approval before publishing.']
+      };
+      const opps = [
+        ['94', 'Turn the neon fashion archive into a 12-second launch reel', '3-shot vertical reel, campaign caption, thumbnail still', 'public/thumbs/fashion.jpg', 'Neon warehouse fashion reel frames'],
+        ['88', 'Refresh the product shot into a three-image paid campaign set', 'Hero image, detail crop, square social variation', 'public/thumbs/product.jpg', 'Chrome product render with wet pavement reflection'],
+        ['87', 'Recover voiceover takes as a creator-process post', 'Narrated clip outline, carousel plan, caption', 'public/thumbs/audio.jpg', 'Unused voiceover takes']
+      ];
+      function show(view) {
+        document.querySelectorAll('.view').forEach(el => el.classList.toggle('hidden', el.id !== view));
+        document.querySelectorAll('.nav button').forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
+        document.getElementById('title').textContent = headers[view][0];
+        document.getElementById('subtitle').textContent = headers[view][1];
+      }
+      document.querySelectorAll('.nav button').forEach(btn => btn.addEventListener('click', () => show(btn.dataset.view)));
+      function selectOpp(index) {
+        document.querySelectorAll('.card').forEach((card, i) => card.classList.toggle('active', i === index));
+        const opp = opps[index];
+        document.getElementById('score').textContent = opp[0];
+        document.getElementById('oppTitle').textContent = opp[1];
+        document.getElementById('oppOutput').textContent = opp[2];
+        document.getElementById('assetA').src = opp[3];
+        document.getElementById('assetTitle').textContent = opp[4];
+      }
+      function setNotice(text) { document.getElementById('notice').textContent = text; }
+    </script>
+  </body>
+</html>
