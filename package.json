@@ -1,0 +1,38 @@
+{
+  "name": "tasteos-magnific",
+  "version": "1.0.0",
+  "description": "Magnific-native personal newsroom hackathon demo.",
+  "main": "server/index.mjs",
+  "scripts": {
+    "dev": "concurrently -k \"node server/index.mjs\" \"vite --host 0.0.0.0\"",
+    "dev:server": "node server/index.mjs",
+    "dev:web": "vite --host 0.0.0.0",
+    "build": "tsc && vite build",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "keywords": [
+    "magnific",
+    "agent",
+    "creator-tools",
+    "hackathon"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.1.1",
+    "concurrently": "^9.2.1",
+    "express": "^5.2.1",
+    "lucide-react": "^0.555.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "vite": "^7.2.7"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.0",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3"
+  }
+}
