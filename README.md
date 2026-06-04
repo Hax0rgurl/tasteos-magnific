@@ -4,7 +4,6 @@ Magnific-native personal newsroom demo for the UPSCALE CONF Hackathon.
 
 ## Demo
 
-- Standalone HTML demo: [`demo.html`](demo.html)
 - Local React demo: `npm install && npm run dev`, then open `http://localhost:5173`
 - GitHub Pages demo: `https://hax0rgurl.github.io/tasteos-magnific/demo.html`
 
