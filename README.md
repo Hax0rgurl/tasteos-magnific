@@ -2,6 +2,12 @@
 
 Magnific-native personal newsroom demo for the UPSCALE CONF Hackathon.
 
+## Demo
+
+- Standalone HTML demo: [`demo.html`](demo.html)
+- Local React demo: `npm install && npm run dev`, then open `http://localhost:5173`
+- GitHub Pages demo: `https://hax0rgurl.github.io/tasteos-magnific/demo.html`
+
 The product idea: an agent looks at who a creator is, what they make, what already exists in their Magnific archive, and what Magnific workflows are available. It proposes the most valuable next creative actions, drafts content through Magnific, and learns from approve / disapprove / revise feedback.
 
 ## Run
